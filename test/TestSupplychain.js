@@ -142,7 +142,7 @@ contract('SupplyChain', function(acc) {
         // Verify the result set
         itemState = 2;
         assert.equal(resultBufferTwo[5], itemState, "Invalid item state");
-        //assert.equal(eventEmitted, true, 'Invalid event emitted');
+        assert.equal(eventEmitted, true, 'Invalid event emitted');
         
     })    
 
@@ -170,7 +170,7 @@ contract('SupplyChain', function(acc) {
         itemState = 3;
         assert.equal(resultBufferTwo[4], productPrice, 'Invalid item price');
         assert.equal(resultBufferTwo[5], itemState, 'Invalid item state');
-        //assert.equal(eventEmitted, true, 'Invalid event emitted');
+        assert.equal(eventEmitted, true, 'Invalid event emitted');
     })    
 
     // 5th Test
@@ -200,7 +200,7 @@ contract('SupplyChain', function(acc) {
         itemState = 4;
         assert.equal(resultBufferTwo[5], itemState, 'Invalid item state');
         assert.equal(resultBufferTwo[6], distributorID, 'Invalid distributorID');
-        //assert.equal(eventEmitted, true, 'Invalid event emitted');
+        assert.equal(eventEmitted, true, 'Invalid event emitted');
         
     })   
 
@@ -228,7 +228,7 @@ contract('SupplyChain', function(acc) {
         // Verify the result set
         itemState = 4;
         assert.equal(resultBufferTwo[5].toNumber(), itemState, 'Invalid item state');
-        //assert.equal(eventEmitted, true, 'Invalid event emitted');
+        assert.equal(eventEmitted, true, 'Invalid event emitted');
     })    
 
     // 7th Test
@@ -260,7 +260,7 @@ contract('SupplyChain', function(acc) {
         assert.equal(resultBufferOne[2], retailerID, 'Invalid ownerID');
         assert.equal(resultBufferTwo[5], itemState, 'Invalid item state');
         assert.equal(resultBufferTwo[7], retailerID, 'Invalid retailerID');
-        //assert.equal(eventEmitted, true, 'Invalid event emitted');
+        assert.equal(eventEmitted, true, 'Invalid event emitted');
 
     })    
 
@@ -294,7 +294,7 @@ contract('SupplyChain', function(acc) {
         assert.equal(resultBufferOne[2], consumerID, 'Invalid ownerId');
         assert.equal(resultBufferTwo[5], itemState,'Invalid itemState');
         assert.equal(resultBufferTwo[8], consumerID,'Invalid consumerID');
-        //assert.equal(eventEmitted, true, 'Invalid event emitted');
+        assert.equal(eventEmitted, true, 'Invalid event emitted');
     })    
 
     // 9th Test

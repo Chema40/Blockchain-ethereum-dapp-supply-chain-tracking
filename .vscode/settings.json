@@ -1,3 +1,4 @@
 {
-    "solidity.compileUsingRemoteVersion": "v0.4.24+commit.e67f0147"
+    "solidity.compileUsingRemoteVersion": "v0.4.24+commit.e67f0147",
+    "solidity.compileUsingLocalVersion": "c:\\Users\\belen\\Desktop\\Chema\\Cursos\\Udacity\\Blockchain developer\\Block 3\\Initial project\\Blockchain-ethereum-dapp-supply-chain-tracking\\soljson-v0.4.23+commit.124ca40d.js"
 }
