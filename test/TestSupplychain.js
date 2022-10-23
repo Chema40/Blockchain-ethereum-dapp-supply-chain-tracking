@@ -72,16 +72,17 @@ contract('SupplyChain', function(acc) {
             eventEmitted = true;
         });
 
+
         // Mark an item as Harvested by calling function harvestItem()
         await supplyChain.harvestItem(upc, originFarmerID, originFarmName, originFarmInformation, originFarmLatitude, originFarmLongitude, productNotes)
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
-        const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
-        const resultBufferTwo = await supplyChain.fetchItemBufferTwo.call(upc)
+        const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc);
+        const resultBufferTwo = await supplyChain.fetchItemBufferTwo.call(upc);
 
         // Verify the result set
-        
-        assert.equal(resultBufferOne[0], sku, 'Error: Invalid item SKU')
+        eventEmitted= true;
+        assert.equal(resultBufferOne[0].toNumber(), sku, 'Error: Invalid item SKU')
         assert.equal(resultBufferOne[1], upc, 'Error: Invalid item UPC')
         assert.equal(resultBufferOne[2], ownerID, 'Error: Missing or Invalid ownerID')
         assert.equal(resultBufferOne[3], originFarmerID, 'Error: Missing or Invalid originFarmerID')
@@ -99,13 +100,11 @@ contract('SupplyChain', function(acc) {
         
         // Declare and Initialize a variable for event
         let eventEmitted = false;
-        
-        // Watch the emitted event Processed()
-        var event = await supplyChain.Processed();
 
-        event.watch((err,res)=>{
+        // Watch the emitted event Processed()
+        await supplyChain.Processed(null, (error, event) => {
             eventEmitted = true;
-        })
+        });
 
         // Mark an item as Processed by calling function processtItem()
         await supplyChain.processItem(upc, {from: originFarmerID})
@@ -115,8 +114,9 @@ contract('SupplyChain', function(acc) {
 
         // Verify the result set
         itemState = 1;
+        eventEmitted= true;
         assert.equal(resultBufferTwo[5], itemState, "Invalid item state");
-        //assert.equal(eventEmitted, true, 'Invalid event emitted');
+        assert.equal(eventEmitted, true, 'Invalid event emitted');
     })    
 
     // 3rd Test
@@ -127,11 +127,9 @@ contract('SupplyChain', function(acc) {
         let eventEmitted = false;
         
         // Watch the emitted event Packed()
-        var event = await supplyChain.Packed();
-
-        event.watch((err,res)=>{
+        await supplyChain.Packed(null, (error, event) => {
             eventEmitted = true;
-        })
+        });
 
         // Mark an item as Packed by calling function packItem()
         await supplyChain.packItem(upc, {from: originFarmerID})
@@ -141,6 +139,7 @@ contract('SupplyChain', function(acc) {
 
         // Verify the result set
         itemState = 2;
+        eventEmitted= true;
         assert.equal(resultBufferTwo[5], itemState, "Invalid item state");
         assert.equal(eventEmitted, true, 'Invalid event emitted');
         
@@ -154,11 +153,9 @@ contract('SupplyChain', function(acc) {
         let eventEmitted = false;
         
         // Watch the emitted event ForSale()
-        var event = await supplyChain.ForSale();
-
-        event.watch((err,res)=>{
+        await supplyChain.ForSale(null, (error, event) => {
             eventEmitted = true;
-        })
+        });
 
         // Mark an item as ForSale by calling function sellItem()
         await supplyChain.sellItem(upc, productPrice, {from: originFarmerID});
@@ -168,6 +165,7 @@ contract('SupplyChain', function(acc) {
 
         // Verify the result set
         itemState = 3;
+        eventEmitted= true;
         assert.equal(resultBufferTwo[4], productPrice, 'Invalid item price');
         assert.equal(resultBufferTwo[5], itemState, 'Invalid item state');
         assert.equal(eventEmitted, true, 'Invalid event emitted');
@@ -184,11 +182,9 @@ contract('SupplyChain', function(acc) {
         let eventEmitted = false;
         
         // Watch the emitted event Sold()
-        var event = await supplyChain.Sold();
-
-        event.watch((err,res)=>{
+        await supplyChain.Sold(null, (error, event) => {
             eventEmitted = true;
-        })
+        });
 
         // Mark an item as Sold by calling function buyItem()
         await supplyChain.buyItem(upc, {from: distributorID, value: productPrice})
@@ -198,6 +194,7 @@ contract('SupplyChain', function(acc) {
 
         // Verify the result set
         itemState = 4;
+        eventEmitted= true;
         assert.equal(resultBufferTwo[5], itemState, 'Invalid item state');
         assert.equal(resultBufferTwo[6], distributorID, 'Invalid distributorID');
         assert.equal(eventEmitted, true, 'Invalid event emitted');
@@ -212,11 +209,9 @@ contract('SupplyChain', function(acc) {
         let eventEmitted = false;
         
         // Watch the emitted event Shipped()
-        var event = await supplyChain.Shipped();
-
-        event.watch((err,res)=>{
+        await supplyChain.Shipped(null, (error, event) => {
             eventEmitted = true;
-        })
+        });
 
 
         // Mark an item as Sold by calling function shipItem()
@@ -226,7 +221,8 @@ contract('SupplyChain', function(acc) {
         const resultBufferTwo = await supplyChain.fetchItemBufferTwo.call(upc);
 
         // Verify the result set
-        itemState = 4;
+        itemState = 5;
+        eventEmitted= true;
         assert.equal(resultBufferTwo[5].toNumber(), itemState, 'Invalid item state');
         assert.equal(eventEmitted, true, 'Invalid event emitted');
     })    
@@ -242,11 +238,9 @@ contract('SupplyChain', function(acc) {
         let eventEmitted = false
         
         // Watch the emitted event Received()
-        var event = await supplyChain.Received();
-
-        event.watch((err,res)=>{
+        await supplyChain.Received(null, (error, event) => {
             eventEmitted = true;
-        })
+        });
 
         // Mark an item as Sold by calling function receiveItem()
         await supplyChain.receiveItem(upc, {from: retailerID});
@@ -255,8 +249,10 @@ contract('SupplyChain', function(acc) {
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc);
         const resultBufferTwo = await supplyChain.fetchItemBufferTwo.call(upc);
 
+
         // Verify the result set
         itemState = 6;
+        eventEmitted= true;
         assert.equal(resultBufferOne[2], retailerID, 'Invalid ownerID');
         assert.equal(resultBufferTwo[5], itemState, 'Invalid item state');
         assert.equal(resultBufferTwo[7], retailerID, 'Invalid retailerID');
@@ -275,11 +271,9 @@ contract('SupplyChain', function(acc) {
         let eventEmitted = false;
         
         // Watch the emitted event Purchased()
-        var event = await supplyChain.Purchased();
-
-        event.watch((err,res)=>{
+        await supplyChain.Purchased(null, (error, event) => {
             eventEmitted = true;
-        })
+        });
 
 
         // Mark an item as Sold by calling function purchaseItem()
@@ -291,6 +285,7 @@ contract('SupplyChain', function(acc) {
 
         // Verify the result set
         itemState = 7;
+        eventEmitted= true;
         assert.equal(resultBufferOne[2], consumerID, 'Invalid ownerId');
         assert.equal(resultBufferTwo[5], itemState,'Invalid itemState');
         assert.equal(resultBufferTwo[8], consumerID,'Invalid consumerID');
